@@ -1,33 +1,43 @@
+// Funcion para manejar errores
 var createError = require('http-errors');
+// Importa el framework express
 var express = require('express');
+// Importa los modulos para manejar rutas
 var path = require('path');
+// Importa modulos para las cookies
 var cookieParser = require('cookie-parser');
+// Importa modulos para manejar logs
 var logger = require('morgan');
 
+//importar las rutas de la aplicacion
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
+//Crea la aplicacion express
 var app = express();
 
-// view engine setup
+// Configurar el motor de visitas
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 
+// Connfigura los miderwares
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+// Configura la carpeta de los archivos estaticos 
 app.use(express.static(path.join(__dirname, 'public')));
 
+//registramos rutas de la aplicacion
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
-// catch 404 and forward to error handler
+// capturamos el error 404
 app.use(function(req, res, next) {
   next(createError(404));
 });
 
-// error handler
+// Manejador de errores
 app.use(function(err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
