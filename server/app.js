@@ -14,9 +14,24 @@ import cookieParser from 'cookie-parser'
 //X var logger = require('morgan');
 import logger from 'morgan'
 
+import indexRouter from './routes/index.js'
+import usersRouter from './routes/users.js'
+
+
+import {fileURLToPath} from 'node:url'
+import {dirname} from 'node:path'
+
+//creando la variable 
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = dirname(__filename)
+
+
 //importar las rutas de la aplicacion
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+
+//var indexRouter = require('./routes/index');
+
+//var usersRouter = require('./routes/users');
+
 
 //Crea la aplicacion express
 var app = express();
@@ -54,4 +69,4 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-module.exports = app;
+export default app;
