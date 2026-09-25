@@ -17,6 +17,8 @@ import logger from 'morgan'
 import indexRouter from './routes/index.js'
 import usersRouter from './routes/users.js'
 
+const debug = createdebug('dwssr-2026d:server');
+import createdebug from 'debug';
 
 import {fileURLToPath} from 'node:url'
 import {dirname} from 'node:path'
@@ -24,7 +26,7 @@ import {dirname} from 'node:path'
 //creando la variable 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
-
+debug('Aplicación inicializada correctamente');
 
 //importar las rutas de la aplicacion
 
@@ -45,10 +47,11 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-
+debug('Carpeta de archivos');
 // Configura la carpeta de los archivos estaticos 
 app.use(express.static(path.join(__dirname,'..' ,'public')));
 
+debug('Rutas de aplicacion');
 //registramos rutas de la aplicacion
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
