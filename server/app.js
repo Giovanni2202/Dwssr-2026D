@@ -14,8 +14,8 @@ import cookieParser from 'cookie-parser'
 //X var logger = require('morgan');
 import logger from 'morgan'
 
-import indexRouter from './routes/index.js'
-import usersRouter from './routes/users.js'
+import indexRouter from '#routes/index.js'
+import usersRouter from '#routes/users.js'
 
 const debug = createdebug('dwssr-2026d:server');
 import createdebug from 'debug';
