@@ -23,7 +23,7 @@ import createdebug from 'debug';
 import {fileURLToPath} from 'node:url'
 import {dirname} from 'node:path'
 
-//creando la variable 
+//creando la variables de rutas
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
 debug('Aplicación inicializada correctamente');
