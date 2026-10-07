@@ -37,4 +37,38 @@ export function viteAssets(){
         console.warn("Vite Manifest nott found. run 'nmp run build'")
         return''
     }
+
+    //leyendo y parseando a JSON el archivo
+    //de manifiesto que genera vite en la compilacion
+    //de los archivos del front end
+    const manifest =JSON.parse(fs.readFileSync(manifestPath, 'utf-8'))
+    //obteniendo la ruta del punto de entrada del front-end
+    const mainEntry =manifest['main.js']
+    //guarda el main.js
+    if(!mainEntry){
+        console.warn('Archivo main.js no esta disponible en el manifiesto de vite')
+        return''
+    }
+    let tags=''
+
+    //Css File
+    if (mainEntry.css){
+        mainEntry.css.forEach(cssfiles=>{
+            tags+= `<link rel="stylesheet" href="/${cssfiles}">\n`
+        });
+    }
+
+    //Js files
+    tags+=`<script type="module" scr="/${mainEntry.file}" defer></script>`;
+
+    return tags;
+    
 }
+/*
+    *Funcion registradora del Helper de Handlebars
+    */
+export function registrerViteHelper(hbs){
+    hbs.registrerHelper('ViteAssets',()=>{
+        return new hbs.SafesString(viteAssets ())
+    })
+   }

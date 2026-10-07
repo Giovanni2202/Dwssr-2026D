@@ -14,18 +14,25 @@ import cookieParser from 'cookie-parser'
 //X var logger = require('morgan');
 import logger from 'morgan'
 
+//importar rutas de la aplicacion
 import indexRouter from '#routes/index.js'
 import usersRouter from '#routes/users.js'
+//importando el registrador del helper
+import{registrerViteHelper} from './lib/vite'
 
 const debug = createdebug('dwssr-2026d:server');
 import createdebug from 'debug';
-
+//imports para crear dirname
 import {fileURLToPath} from 'node:url'
 import {dirname} from 'node:path'
+
+//importanto el tempplate engine Hadlebars
+import hbs from 'hbs'
 
 //creando la variables de rutas
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
+
 debug('Aplicación inicializada correctamente');
 
 //importar las rutas de la aplicacion
@@ -38,15 +45,23 @@ debug('Aplicación inicializada correctamente');
 //Crea la aplicacion express
 var app = express();
 
-// Configurar el motor de visitas
+// Configurar el motor de visitas con hbs
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
+//registro Helper
+registrerViteHelper(hbs)
 
 // Connfigura los miderwares
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+
+//archivos estaticos para produccion
+if(process.env.NODE_ENV =='production'){
+  app.use(express.static(path.join(__dirname,'..' ,'dist')));
+}
+
 debug('Carpeta de archivos');
 // Configura la carpeta de los archivos estaticos 
 app.use(express.static(path.join(__dirname,'..' ,'public')));
