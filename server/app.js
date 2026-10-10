@@ -1,30 +1,27 @@
 // Funcion para manejar errores
-// X var createError = require('http-errors');
 import createError from 'http-errors'
 // Importa el framework express
-// X var express = require('express');
 import express from 'express'
 // Importa los modulos para manejar rutas
-// X var path = require('path');
 import path from 'node:path'
 // Importa modulos para las cookies
-// X var cookieParser = require('cookie-parser');
 import cookieParser from 'cookie-parser'
 // Importa modulos para manejar logs
-//X var logger = require('morgan');
 import logger from 'morgan'
 
 //importar rutas de la aplicacion
 import indexRouter from '#routes/index.js'
 import usersRouter from '#routes/users.js'
+
 //importando el registrador del helper
-import{registrerViteHelper} from './lib/vite'
+import createdebug from 'debug'
+import { registrarViteHelper } from './lib/vite.js'
 
 const debug = createdebug('dwssr-2026d:server');
-import createdebug from 'debug';
+
 //imports para crear dirname
-import {fileURLToPath} from 'node:url'
-import {dirname} from 'node:path'
+import { dirname } from 'node:path'
+import { fileURLToPath } from 'node:url'
 
 //importanto el tempplate engine Hadlebars
 import hbs from 'hbs'
@@ -35,21 +32,28 @@ const __dirname = dirname(__filename)
 
 debug('Aplicación inicializada correctamente');
 
-//importar las rutas de la aplicacion
-
-//var indexRouter = require('./routes/index');
-
-//var usersRouter = require('./routes/users');
-
-
 //Crea la aplicacion express
 var app = express();
 
 // Configurar el motor de visitas con hbs
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
+
 //registro Helper
-registrerViteHelper(hbs)
+registrarViteHelper(hbs)
+
+// ==========================================
+// INTEGRACIÓN VITE COMO MIDDLEWARE
+// ==========================================
+if (process.env.NODE_ENV !== 'production') {
+  const { createServer } = await import('vite');
+  const viteDevServer = await createServer({
+    server: { middlewareMode: true },
+    appType: 'custom'
+  });
+  app.use(viteDevServer.middlewares);
+}
+// ==========================================
 
 // Connfigura los miderwares
 app.use(logger('dev'));

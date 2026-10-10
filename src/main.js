@@ -2,4 +2,4 @@
 import './styles/main.css'
 
 //imprimiendo en consola
-console.log("🎉 VITE + EX")
+console.log("🎉 ⚡ VITE + ⭐ EXPRESS")
