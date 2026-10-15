@@ -11,16 +11,21 @@ export default defineConfig([
     ]
   },
   //2)config del back-end
-  { files: ["server/**/*.{js,mjs}"], 
+  { 
+    files: ["server/**/*.{js,mjs}"],
     plugins: { js }, 
     extends: ["js/recommended"], 
     languageOptions: {
-      ecmaVersion:"latest",
-      sourceType:"module",
-      globals: { 
-      ...globals.node} 
-  } 
-},
+      ecmaVersion: "latest",
+      sourceType: "module",
+      globals: {
+        ...globals.node
+        }  
+      } ,
+      rules:{
+        "no-unused-vars": ["error", {"argsIgnorePattern":"^_"}]
+      }
+    },
 //2.1)config del back-end
   { files: ["vite.config.js"], 
     plugins: { js }, 
