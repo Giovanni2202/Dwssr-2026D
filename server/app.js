@@ -90,5 +90,15 @@ app.use(function(err, req, res, _next) {
   res.status(err.status || 500);
   res.render('error');
 });
+//ejemplo de codigo inlcanzable
+//(()=>{
+  //let age=10
+  
+  //if (age< 10) {
+    //console.log("age is less than 10")
+  //}
+  //return age
+//})()
 
+//module.exports = app;
 export default app;
