@@ -1,8 +1,3 @@
-body{
-    padding: 50px;
-    font:14px "lucida Grande", helvetica, arial, sans-serif
-
-}
-h1{
-    color:yellowgreen
-}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
