@@ -1,9 +1,10 @@
-import express from 'express'
+import express from 'express';
+
 const router = express.Router();
 
 /* GET users listing. */
 // eslint-disable-next-line
-router.get('/', function(req, res, next) {
+router.get('/', function (req, res, next) {
   res.send('respond with a resource');
 });
 

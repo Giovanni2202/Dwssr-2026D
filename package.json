@@ -30,6 +30,7 @@
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "@tailwindcss/postcss": "^4.3.3",
+    "@tailwindcss/vite": "^4.3.3",
     "autoprefixer": "^10.6.1",
     "concurrently": "^10.0.5",
     "eslint": "^10.12.0",

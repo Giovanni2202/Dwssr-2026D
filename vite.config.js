@@ -1,22 +1,26 @@
-import { defineConfig } from 'vite'
-import { resolve } from 'node:path'
-import { fileURLToPath } from 'node:url'
-import { dirname } from 'node:path'
+import tailwindcss from '@tailwindcss/vite'; // 👈 Importa Tailwind
+import { dirname, resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { defineConfig } from 'vite';
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
 
 export default defineConfig({
-    // directorio raiz de los archivos fuente del front end
     root: 'src',
-    // configuracion de servidor
+    plugins: [
+        tailwindcss(), // 👈 Habilita el procesamiento de Tailwind
+    ],
     server: {
-        host: true, // 👈 Obligatorio para evitar el error 502 en Codespaces
+        host: true,
         port: 5173,
         strictPort: true,
-        cors: true, // 👈 Añade esto para permitir peticiones entre los puertos de Codespaces
+        cors: {
+            origin: '*',
+            methods: ['GET', 'OPTIONS', 'PATCH', 'DELETE', 'POST', 'PUT'],
+        },
         hmr: {
-            clientPort: 443 // 👈 Permite que el proxy de Codespaces maneje los WebSockets
+            clientPort: 443
         }
     },
     build: {
