@@ -24,6 +24,8 @@ import { fileURLToPath } from 'node:url';
 // importanto el tempplate engine Hadlebars
 import hbs from 'hbs';
 import { registrarViteHelper } from './lib/vite.js';
+// eslint-disable-next-line import-x/no-rename-default
+import winstonLogger from './lib/winston.js';
 
 const debug = createdebug('dwssr-2026d:server');
 
@@ -57,8 +59,12 @@ if (process.env.NODE_ENV !== 'production') {
 }
 // ==========================================
 
-// Connfigura los miderwares
-app.use(logger('dev'));
+// Configura los middlewares
+app.use(logger('combined', {
+  stream: {
+    write: (message) => winstonLogger.http(message.trim()),
+  },
+}));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());

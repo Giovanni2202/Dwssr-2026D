@@ -1,5 +1,5 @@
-//importando los estilos de la pagina
+// IMPORTANDO LOS ESTILOS DE LA PAGINA
 import './styles/main.css';
 
-//imprimiendo en consola
-console.log('🎉 ⚡ VITE + ⭐ EXPRESS');
+// imprimiendo en consola
+console.warn("🎉 vite, ⚡ express, 📢 🇺🇸Working");

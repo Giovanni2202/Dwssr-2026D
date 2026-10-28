@@ -1,9 +1,11 @@
+import { defineConfig, globalIgnores } from 'eslint/config';
 import js from '@eslint/js';
+import globals from 'globals';
 import { plugins, rules } from 'eslint-config-airbnb-extended';
 import prettier from 'eslint-config-prettier/flat';
-import { defineConfig, globalIgnores } from 'eslint/config';
-import globals from 'globals';
+
 const { base } = rules;
+
 // Reglas de Airbnb (base) sin las de formato: de eso se encarga Prettier
 const airbnbBase = [
   base.bestPractices,
@@ -14,6 +16,7 @@ const airbnbBase = [
   base.style,
   base.variables,
 ].map((ruleSet) => ({ name: ruleSet.name, rules: ruleSet.rules }));
+
 export default defineConfig([
   globalIgnores([
     'dist/**',
@@ -60,7 +63,12 @@ export default defineConfig([
       ],
     },
   },
+  {
+    files: ['src/**/*.{js,mjs}'],
+    rules: {
+      'no-console': ['warn', { allow: ['warn', 'error', 'info'] }]
+    }
+  },
   // Siempre al final: desactiva reglas que chocan con Prettier
   prettier,
 ]);
- 

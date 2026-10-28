@@ -25,7 +25,9 @@
     "express": "^4.22.3",
     "hbs": "^4.4.0",
     "http-errors": "~1.6.3",
-    "morgan": "^1.12.1"
+    "morgan": "^1.12.1",
+    "winston": "^3.19.0",
+    "winston-daily-rotate-file": "^5.0.0"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
@@ -41,6 +43,7 @@
     "postcss": "^8.5.30",
     "prettier": "^3.9.10",
     "tailwindcss": "^4.3.3",
+    "typescript": "^6.0.3",
     "vite": "^8.3.2"
   },
   "imports": {
