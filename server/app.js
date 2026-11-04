@@ -1,52 +1,50 @@
-// Funcion para manejar errores
+// Funcion para manejar errores en la aplicacion
 import createError from 'http-errors';
-// Importa el framework express
+// Importar el framework express
 import express from 'express';
-// Importa los modulos para manejar rutas
+// Importa modulos para manejar rutas
 import path, { dirname } from 'node:path';
-// Importa modulos para las cookies
+// Importa modulos para manejar cookies
 import cookieParser from 'cookie-parser';
 // Importa modulos para manejar logs
-import logger from 'morgan';
-
-// importar rutas de la aplicacion
-// eslint-disable-next-line import-x/no-rename-default
-import indexRouter from '#routes/index.js';
-// eslint-disable-next-line import-x/no-rename-default
-import usersRouter from '#routes/users.js';
-
-// importando el registrador del helper
-import createdebug from 'debug';
-
-// imports para crear dirname
+import morgan from 'morgan';
+// Importando biblioteca de debug
+import createDebug from 'debug'; // 👈
+// Imports para crear Dirname
 import { fileURLToPath } from 'node:url';
-
-// importanto el tempplate engine Hadlebars
+// Importando el template engine Handlebars
 import hbs from 'hbs';
+
+// Importar las rutas de la aplicacion
+
+import indexRouter from '#routes/index.js';
+
+import usersRouter from '#routes/users.js';
+// Importando el registrador del helper
 import { registrarViteHelper } from './lib/vite.js';
-// eslint-disable-next-line import-x/no-rename-default
-import winstonLogger from './lib/winston.js';
+// Importando la configuracion de winston logger
 
-const debug = createdebug('dwssr-2026d:server');
+import logger from './lib/winston.js';
 
-// creando la variables de rutas
+// Creacion del objeto Debug
+const debug = createDebug('dwssr-2026b:server'); // 👈
+// Creando la variables de rutas
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-debug('Aplicación inicializada correctamente');
-
-// Crea la aplicacion express
+// Crear la aplicacion express
+debug('🔨 Creando backend');
 const app = express();
 
-// Configurar el motor de visitas con hbs
+// Configurar el motor de vistas con hbs
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
-
-// registro Helper
+// Registro Helper (CORREGIDO)
 registrarViteHelper(hbs);
 
 // ==========================================
 // INTEGRACIÓN VITE COMO MIDDLEWARE
+// (Sin esto, los estilos CSS jamás cargarán)
 // ==========================================
 if (process.env.NODE_ENV !== 'production') {
   // eslint-disable-next-line import-x/no-extraneous-dependencies
@@ -59,31 +57,34 @@ if (process.env.NODE_ENV !== 'production') {
 }
 // ==========================================
 
-// Configura los middlewares
-app.use(logger('combined', {
-  stream: {
-    write: (message) => winstonLogger.http(message.trim()),
-  },
-}));
+// Configurar middlewares de la aplicacion
+app.use(
+  morgan('dev', {
+    stream: {
+      write: (msg) => logger.info(msg.trim())
+    }
+  }),
+);
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-// archivos estaticos para produccion
+// Archivos estaticos para produccion
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, '..', 'dist')));
 }
 
-debug('Carpeta de archivos');
-// Configura la carpeta de los archivos estaticos
+// Configurar la carpeta de archivos estaticos
+debug('🔨 Creando servidor de Archivos Estáticos');
 app.use(express.static(path.join(__dirname, '..', 'public')));
 
-debug('Rutas de aplicacion');
-// registramos rutas de la aplicacion
+// Registramos las rutas de la aplicacion
+debug('🛣️ Registrando rutas');
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
-// capturamos el error 404
+// Capturamos errores 404 y los enviamos al manejador de errores
 app.use((req, res, next) => {
   next(createError(404));
 });
@@ -98,5 +99,14 @@ app.use((err, req, res, _next) => {
   res.status(err.status || 500);
   res.render('error');
 });
+
+// Ejemplo de codigo inalcanzable
+// (()=>{
+//   let age = 10
+//   return age
+//   if (age == 10) {
+//     console.log("Codigo")
+//   }
+// })()
 
 export default app;

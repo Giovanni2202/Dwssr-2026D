@@ -1,12 +1,11 @@
 import express from 'express';
 
-const router = express.Router();
+const usersRouter = express.Router();
 
 /* GET users listing. */
-// eslint-disable-next-line
-router.get('/', function (req, res, next) {
-  res.send('respond with a resource');
+usersRouter.get('/', (req, res, _next) => {
+  res.send('<h1 style="color:red">LISTA DE AMIGAS</h1>');
 });
 
-//module.exports = router;
-export default router;
+// module.exports = router;
+export default usersRouter;
