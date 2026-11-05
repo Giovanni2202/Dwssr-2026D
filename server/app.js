@@ -9,7 +9,7 @@ import cookieParser from 'cookie-parser';
 // Importa modulos para manejar logs
 import morgan from 'morgan';
 // Importando biblioteca de debug
-import createDebug from 'debug'; // 👈
+//import createDebug from 'debug'; // 👈
 // Imports para crear Dirname
 import { fileURLToPath } from 'node:url';
 // Importando el template engine Handlebars
@@ -27,13 +27,14 @@ import { registrarViteHelper } from './lib/vite.js';
 import logger from './lib/winston.js';
 
 // Creacion del objeto Debug
-const debug = createDebug('dwssr-2026b:server'); // 👈
+//const debug = createDebug('dwssr-2026b:server'); // 👈
 // Creando la variables de rutas
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 // Crear la aplicacion express
-debug('🔨 Creando backend');
+//debug('🔨 Creando backend');
+logger.info('🔨 Creando backend');
 const app = express();
 
 // Configurar el motor de vistas con hbs
@@ -61,8 +62,8 @@ if (process.env.NODE_ENV !== 'production') {
 app.use(
   morgan('dev', {
     stream: {
-      write: (msg) => logger.info(msg.trim())
-    }
+      write: (msg) => logger.info(msg.trim()),
+    },
   }),
 );
 
@@ -76,11 +77,13 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 // Configurar la carpeta de archivos estaticos
-debug('🔨 Creando servidor de Archivos Estáticos');
+//debug('🔨 Creando servidor de Archivos Estáticos');
+logger.info('🔨 Creando servidor de Archivos Estáticos');
 app.use(express.static(path.join(__dirname, '..', 'public')));
 
 // Registramos las rutas de la aplicacion
-debug('🛣️ Registrando rutas');
+//debug('🛣️ Registrando rutas');
+logger.info('🛣️ Registrando rutas');
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
@@ -109,4 +112,5 @@ app.use((err, req, res, _next) => {
 //   }
 // })()
 
+//module.exports = app;
 export default app;
